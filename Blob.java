@@ -9,20 +9,30 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 public class Blob {
-    public Blob(String inputFile) throws FileNotFoundException {
-        File file = new File(inputFile);
-        String content = fileToString(file);
-        String hash = hashString(content);
+    public Blob(String inputFile) {
+        try {
+            File file = new File(inputFile);
+            String content = fileToString(file);
+            String hash = hashString(content);
 
-        String folderPath = "objects";
-        String fileName = hash;
+            String folderPath = "objects";
+            String fileName = hash;
 
-        String filePath = folderPath + File.separator + fileName;
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
 
-        File newFile = new File(filePath);
-        PrintWriter pw = new PrintWriter(newFile);
-        pw.print(content);
-        pw.close();
+            String filePath = folderPath + File.separator + fileName;
+
+            File newFile = new File(filePath);
+
+            PrintWriter pw = new PrintWriter(newFile);
+            pw.print(content);
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String hashString(String input) {
