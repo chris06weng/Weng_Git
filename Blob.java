@@ -2,12 +2,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 public class Blob {
-    public Blob(String inputFile) {
+    public Blob(String inputFile) throws FileNotFoundException {
         File file = new File(inputFile);
         String content = fileToString(file);
         String hash = hashString(content);
@@ -18,6 +20,9 @@ public class Blob {
         String filePath = folderPath + File.separator + fileName;
 
         File newFile = new File(filePath);
+        PrintWriter pw = new PrintWriter(newFile);
+        pw.print(content);
+        pw.close();
     }
 
     public static String hashString(String input) {
@@ -63,6 +68,7 @@ public class Blob {
                 sb.append(line);
                 sb.append("\n");
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
