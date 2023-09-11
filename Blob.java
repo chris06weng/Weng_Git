@@ -1,8 +1,25 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class Blob {
+    public Blob(String inputFile) {
+        File file = new File(inputFile);
+        String content = fileToString(file);
+        String hash = hashString(content);
+
+        String folderPath = "objects";
+        String fileName = hash;
+
+        String filePath = folderPath + File.separator + fileName;
+
+        File newFile = new File(filePath);
+    }
+
     public static String hashString(String input) {
         try {
             // Create a MessageDigest instance for SHA-1
@@ -35,6 +52,23 @@ public class Blob {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String fileToString(File file) {
+        StringBuilder sb = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return sb.toString();
     }
 
 }
