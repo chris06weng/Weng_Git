@@ -1,63 +1,50 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Index {
     private String indexFilePath = "Index.txt";
     private String objectsFolderPath = "objects";
+    HashMap<String, String> gitMap = new HashMap<String, String>();
 
     public Index() throws IOException {
         File folder = new File(objectsFolderPath);
-        if (!folder.exists()) {
+        if (!folder.exists())
             folder.mkdirs();
-        }
-
         File file = new File(indexFilePath);
-        if (!file.exists()) {
+        if (!file.exists())
             file.createNewFile();
-        }
+        writeIndex();
     }
 
     public void add(String fileName) throws IOException {
+        // creates blob from fileName
         Blob blob = new Blob(fileName);
-
-        String content = Blob.fileToString(new File(fileName));
-        String hash = Blob.hashString(content);
+        String hash = blob.getHash();
+        gitMap.put(fileName, hash);
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(indexFilePath, true))) {
             pw.println(fileName + ": " + hash);
         }
     }
 
-    public void remove(String fileName) {
-        String content = Blob.fileToString(new File(fileName));
-        String hash = Blob.hashString(content);
-        String entryToDelete = fileName + ": " + hash;
+    public void remove(String fileName) throws IOException {
+        gitMap.remove(fileName);
+        writeIndex();
+    }
 
-        try {
-            List<String> indexContents = new ArrayList<>();
-            BufferedReader lineReader = new BufferedReader(new FileReader(indexFilePath));
-            String line;
-            while ((line = lineReader.readLine()) != null) {
-                if (!line.equals(entryToDelete)) {
-                    indexContents.add(line);
-                }
-            }
-            lineReader.close();
+    public void writeIndex() throws IOException {
 
-            try (BufferedWriter indexWriter = new BufferedWriter(new FileWriter(indexFilePath))) {
-                for (String contents : indexContents) {
-                    indexWriter.write(contents);
-                    indexWriter.newLine();
-                }
-            }
-
-            File fileToDelete = new File(objectsFolderPath, hash);
-            if (fileToDelete.exists()) {
-                fileToDelete.delete();
-            }
-        } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+        FileOutputStream fos = new FileOutputStream(indexFilePath);
+        File file = new File(indexFilePath);
+        PrintWriter pw = new PrintWriter(file);
+        Set<String> fileSet = gitMap.keySet();
+        for (String k : fileSet) {
+            pw.print(k);
+            pw.println(" : " + gitMap.get(k));
         }
+        pw.close();
+        fos.close();
+
     }
 }
