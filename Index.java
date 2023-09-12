@@ -21,10 +21,21 @@ public class Index {
         // creates blob from fileName
         Blob blob = new Blob(fileName);
         String hash = blob.getHash();
-        gitMap.put(fileName, hash);
+        if (gitMap.containsKey(fileName)) {
+            replace(fileName, hash);
+        } else {
+            gitMap.put(fileName, hash);
+            try (PrintWriter pw = new PrintWriter(new FileWriter(indexFilePath, true))) {
+                pw.println(fileName + ": " + hash);
+            }
+        }
+    }
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(indexFilePath, true))) {
-            pw.println(fileName + ": " + hash);
+    public void replace(String fileName, String hash) throws IOException {
+        if (!hash.equals(gitMap.get(fileName))) {
+            gitMap.remove(fileName);
+            gitMap.put(fileName, hash);
+            writeIndex();
         }
     }
 
