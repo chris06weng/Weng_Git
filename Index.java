@@ -23,6 +23,7 @@ public class Index {
         String hash = blob.getHash();
         if (gitMap.containsKey(fileName)) {
             replace(fileName, hash);
+            blob.rewriteFile();
         } else {
             gitMap.put(fileName, hash);
             try (PrintWriter pw = new PrintWriter(new FileWriter(indexFilePath, true))) {
@@ -45,7 +46,6 @@ public class Index {
     }
 
     public void writeIndex() throws IOException {
-
         FileOutputStream fos = new FileOutputStream(indexFilePath);
         File file = new File(indexFilePath);
         PrintWriter pw = new PrintWriter(file);

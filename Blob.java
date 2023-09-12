@@ -1,7 +1,10 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Set;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,10 +12,11 @@ import java.io.UnsupportedEncodingException;
 
 public class Blob {
     File file;
-    String content, hash;
+    String content, hash, fileName;
     String folderPath = "objects";
 
     public Blob(String inputFile) throws IOException {
+        fileName = inputFile;
         file = new File(inputFile);
         content = fileToString(file);
         hash = hashString(content);
@@ -26,6 +30,15 @@ public class Blob {
 
     public String getHash() {
         return hash;
+    }
+
+    public void rewriteFile() throws IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        // File file = new File(fileName);
+        PrintWriter pw = new PrintWriter(fileName);
+        pw.print(content);
+        pw.close();
+        fos.close();
     }
 
     private void createFile() throws IOException {
