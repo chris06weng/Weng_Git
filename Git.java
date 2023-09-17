@@ -2,19 +2,20 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Index {
-    private String indexFilePath = "Index";
-    private String objectsFolderPath = "objects";
+public class Git {
+    private String objectsFolderPath, gitFilePath;
     HashMap<String, String> gitMap = new HashMap<String, String>();
 
-    public Index() throws IOException {
+    public Git(String path) throws IOException {
+        gitFilePath = path;
+        objectsFolderPath = "objects";
         File folder = new File(objectsFolderPath);
         if (!folder.exists())
             folder.mkdirs();
-        File file = new File(indexFilePath);
+        File file = new File(gitFilePath);
         if (!file.exists())
             file.createNewFile();
-        writeIndex();
+        writeGit();
     }
 
     public void add(String fileName) throws IOException {
@@ -23,10 +24,11 @@ public class Index {
         String hash = blob.getHash();
         if (gitMap.containsKey(fileName)) {
             replace(fileName, hash);
+            blob.rewriteFile();
         } else {
-            try (PrintWriter pw = new PrintWriter(new FileWriter(indexFilePath, true))) {
+            try (PrintWriter pw = new PrintWriter(new FileWriter(gitFilePath, true))) {
                 if (gitMap.isEmpty())
-                    pw.print(fileName + " : " + hash);
+                    pw.print(hash + " : " + fileName);
                 else
                     pw.print("\n" + hash + " : " + fileName);
             }
@@ -38,19 +40,18 @@ public class Index {
         if (!hash.equals(gitMap.get(fileName))) {
             gitMap.remove(fileName);
             gitMap.put(fileName, hash);
-            writeIndex();
+            writeGit();
         }
     }
 
     public void remove(String fileName) throws IOException {
         gitMap.remove(fileName);
-        writeIndex();
+        writeGit();
     }
 
-    public void writeIndex() throws IOException {
-
-        FileOutputStream fos = new FileOutputStream(indexFilePath);
-        File file = new File(indexFilePath);
+    public void writeGit() throws IOException {
+        FileOutputStream fos = new FileOutputStream(gitFilePath);
+        File file = new File(gitFilePath);
         PrintWriter pw = new PrintWriter(file);
         Set<String> fileSet = gitMap.keySet();
         Boolean isFirst = true;
@@ -63,5 +64,10 @@ public class Index {
         }
         pw.close();
         fos.close();
+    }
+
+    public void addTree() throws IOException {
+        add("Tree");
+
     }
 }
