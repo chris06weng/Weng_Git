@@ -102,12 +102,87 @@
                 "values": []
             }
         ]
-    }{
+    },
+    {
         "ClassName": "Tree",
         "constructorConfigs": [
             {
                 "parameterTypes": [],
                 "values": []
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "addOld",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileName"
+                ]
+            },
+            {
+                "methodName": "add",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileName"
+                ]
+            },
+            {
+                "methodName": "addTreeFromHash",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "hash"
+                ]
+            },
+            {
+                "methodName": "addBlobFromHash",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "hash"
+                ]
+            },
+            {
+                "methodName": "writeGit",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "generateTree",
+                "parameters": [],
+                "values": []
+            }
+        ]
+    },
+    {
+        "ClassName": "Index",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [],
+                "values": []
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "add",
+                "parameters": "String",
+                "values": "fileName"
+            }
+        ]
+    },
+    {
+        "ClassName": "HashGen",
+        "methodConfigs": [
+            {
+                "methodName": "hashString",
+                "parameters": "String",
+                "values": "input"
             }
         ]
     }
