@@ -53,21 +53,27 @@
         ]
     },
     {
-        "className": "Index",
+        "className": "Git",
         "constructorConfigs": [
             {
-                "parameterTypes": [],
-                "values": []
+                "parameterTypes": [
+                    "String"
+                ],
+                "values": [
+                    "path"
+                ]
             }
         ],
         "methodConfigs": [
             {
-                "methodName": "add",
+                "methodName": "addBlob",
                 "parameters": [
+                    "String",
                     "String"
                 ],
                 "values": [
-                    "fileName"
+                    "fileName",
+                    "prefix"
                 ]
             },
             {
@@ -91,8 +97,16 @@
                 ]
             },
             {
-                "methodName": "writeIndex",
+                "methodName": "writeGit",
                 "parameters": [],
+                "values": []
+            }
+        ]
+    }{
+        "ClassName": "Tree",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [],
                 "values": []
             }
         ]

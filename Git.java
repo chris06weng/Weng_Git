@@ -3,12 +3,12 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class Git {
-    private String objectsFolderPath, gitFilePath;
-    HashMap<String, String> gitMap = new HashMap<String, String>();
+    protected String objectsFolderPath, gitFilePath;
+    protected HashMap<String, String> gitMap = new HashMap<String, String>();
 
     public Git(String path) throws IOException {
         gitFilePath = path;
-        objectsFolderPath = "objects";
+        objectsFolderPath = "bin/objects";
         File folder = new File(objectsFolderPath);
         if (!folder.exists())
             folder.mkdirs();
@@ -18,7 +18,7 @@ public class Git {
         writeGit();
     }
 
-    public void add(String fileName) throws IOException {
+    protected void addBlob(String fileName, String prefix) throws IOException {
         // creates blob from fileName
         Blob blob = new Blob(fileName);
         String hash = blob.getHash();
@@ -28,9 +28,9 @@ public class Git {
         } else {
             try (PrintWriter pw = new PrintWriter(new FileWriter(gitFilePath, true))) {
                 if (gitMap.isEmpty())
-                    pw.print(hash + " : " + fileName);
+                    pw.print(prefix + hash + " : " + fileName);
                 else
-                    pw.print("\n" + hash + " : " + fileName);
+                    pw.print("\n" + prefix + hash + " : " + fileName);
             }
             gitMap.put(fileName, hash);
         }
@@ -64,10 +64,5 @@ public class Git {
         }
         pw.close();
         fos.close();
-    }
-
-    public void addTree() throws IOException {
-        add("Tree");
-
     }
 }

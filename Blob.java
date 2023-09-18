@@ -10,10 +10,11 @@ import java.io.UnsupportedEncodingException;
 
 public class Blob {
     File file;
-    String content, hash;
-    String folderPath = "objects";
+    String content, hash, fileName;
+    String folderPath = "bin/objects";
 
     public Blob(String inputFile) throws IOException {
+        fileName = inputFile;
         file = new File(inputFile);
         content = fileToString(file);
         hash = hashString(content);
@@ -21,14 +22,21 @@ public class Blob {
 
     }
 
-    public Blob (String contents, Boolean )
-
     public String getFileContents() {
         return content;
     }
 
     public String getHash() {
         return hash;
+    }
+
+    public void rewriteFile() throws IOException {
+        FileOutputStream fos = new FileOutputStream(fileName);
+        // File file = new File(fileName);
+        PrintWriter pw = new PrintWriter(fileName);
+        pw.print(content);
+        pw.close();
+        fos.close();
     }
 
     private void createFile() throws IOException {
@@ -83,9 +91,14 @@ public class Blob {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
+        Boolean isFirst = true;
         while (br.ready()) {
             line = br.readLine();
-            sb.append(line + "\n");
+            if (isFirst) {
+                sb.append(line);
+                isFirst = false;
+            } else
+                sb.append("\n" + line);
         }
         br.close();
         return sb.toString();
