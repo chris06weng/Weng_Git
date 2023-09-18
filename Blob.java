@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 public class Blob {
     File file;
     String content, hash, fileName;
-    String folderPath = "objects";
+    String folderPath = "bin/objects";
 
     public Blob(String inputFile) throws IOException {
         fileName = inputFile;
@@ -93,9 +93,14 @@ public class Blob {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
+        Boolean isFirst = true;
         while (br.ready()) {
             line = br.readLine();
-            sb.append(line + "\n");
+            if (isFirst) {
+                sb.append(line);
+                isFirst = false;
+            } else
+                sb.append("\n" + line);
         }
         br.close();
         return sb.toString();
