@@ -1,3 +1,3 @@
 # Weng_Git
 
-Git (some bitches)
+chris needs to Git (some bitches)

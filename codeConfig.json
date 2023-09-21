@@ -1,0 +1,189 @@
+[
+    {
+        "className": "Blob",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                    "String"
+                ],
+                "values": [
+                    "inputFile"
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "getFileContents",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "getHash",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "rewriteFile",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "createFIle",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "hashString",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileContent"
+                ]
+            },
+            {
+                "methodName": "fileToString",
+                "parameters": [
+                    "File"
+                ],
+                "values": [
+                    "file"
+                ]
+            }
+        ]
+    },
+    {
+        "className": "Git",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [
+                    "String"
+                ],
+                "values": [
+                    "path"
+                ]
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "addBlob",
+                "parameters": [
+                    "String",
+                    "String"
+                ],
+                "values": [
+                    "fileName",
+                    "prefix"
+                ]
+            },
+            {
+                "methodName": "replace",
+                "parameters": [
+                    "String",
+                    "String"
+                ],
+                "values": [
+                    "fileName",
+                    "hash"
+                ]
+            },
+            {
+                "methodName": "remove",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileName"
+                ]
+            },
+            {
+                "methodName": "writeGit",
+                "parameters": [],
+                "values": []
+            }
+        ]
+    },
+    {
+        "ClassName": "Tree",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [],
+                "values": []
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "addOld",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileName"
+                ]
+            },
+            {
+                "methodName": "add",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "fileName"
+                ]
+            },
+            {
+                "methodName": "addTreeFromHash",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "hash"
+                ]
+            },
+            {
+                "methodName": "addBlobFromHash",
+                "parameters": [
+                    "String"
+                ],
+                "values": [
+                    "hash"
+                ]
+            },
+            {
+                "methodName": "writeGit",
+                "parameters": [],
+                "values": []
+            },
+            {
+                "methodName": "generateTree",
+                "parameters": [],
+                "values": []
+            }
+        ]
+    },
+    {
+        "ClassName": "Index",
+        "constructorConfigs": [
+            {
+                "parameterTypes": [],
+                "values": []
+            }
+        ],
+        "methodConfigs": [
+            {
+                "methodName": "add",
+                "parameters": "String",
+                "values": "fileName"
+            }
+        ]
+    },
+    {
+        "ClassName": "HashGen",
+        "methodConfigs": [
+            {
+                "methodName": "hashString",
+                "parameters": "String",
+                "values": "input"
+            }
+        ]
+    }
+]
